@@ -1,0 +1,68 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #f9fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  padding: 40px;
+  gap: 25px;
+}
+
+/* Стиль для полей ввода */
+.label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.label input, .label select, .label textarea {
+  width: 90%;
+  padding: 12px 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.label input:focus, .label select:focus, .label textarea:focus {
+  border-color: #007bff;
+}
+
+/* Стиль для текстовых областей (textarea) */
+.textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+/* Стиль для fieldset */
+.fieldset {
+  border: none;
+  margin-top: 30px;
+}
+
+/* Стиль для кнопок */
+.button {
+  padding: 14px 24px;
+  background-color: #007bff;
+  border-radius: 8px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

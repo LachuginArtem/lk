@@ -4,11 +4,8 @@ const HomeSection = () => {
     return (
         <section className="home">
             <div className="content">
-                <h3>Рекомендательная система</h3>
+                <h3>О нашей рекомендательной системе</h3>
                 <button className="btn">Рассчитать</button>
-            </div>
-            <div className="image">
-                <img src="images/home-img.svg" alt="" />
             </div>
         </section>
     );
