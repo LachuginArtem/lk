@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import styled from '@emotion/styled';
+import Form from './Form.jsx'; 
 
 const StyledHeader = styled.header`
   display: flex;
@@ -46,20 +47,30 @@ const MenuItem = styled.li`
 `;
 
 const Header = () => {
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleForm = () => {
+    setIsFormVisible(!isFormVisible); // Переключаем видимость формы
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
+    <>
     <StyledHeader>
-      <Logo to="/" reload>Личный<span>кабинет</span></Logo>
-      <Logo to="/" reload><span>Рекомендательная система</span></Logo>
+      
+      
+      <Logo onClick={() => window.location.reload()}><span>Личный кабинет</span></Logo>
+      
+      <Logo onClick={toggleForm} ><span>Рекомендательная система</span></Logo>
+      <Logo><span>Помощь</span></Logo>
       
       {/* Иконка профиля */}
       <ProfileIconContainer onClick={toggleMenu}>
-        <AccountBoxIcon style={{ fontSize: 50 }} />
+        { <AccountBoxIcon style={{ fontSize: 50 }} /> }
       </ProfileIconContainer>
 
       {/* Выдвигающееся меню */}
@@ -71,7 +82,10 @@ const Header = () => {
           <MenuItem><Link to="/settings">Выход</Link></MenuItem>
         </DropdownMenu>
       )}
+      
     </StyledHeader>
+    {isFormVisible && <Form />}
+    </>
   );
 };
 

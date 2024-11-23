@@ -4,6 +4,7 @@ const Footer = () => {
     return (
         <section className="footer">
             <div className="box-container">
+           <span>Политика конфинденциальности</span>
             </div>
         </section>
     )

@@ -26,7 +26,7 @@
 }
 
 .label input, .label select, .label textarea {
-  width: 90%;
+  width: 100%;
   padding: 12px 15px;
   border: 2px solid #ccc;
   border-radius: 8px;
