@@ -110,7 +110,7 @@ const Form = () => {
           </label>
         </fieldset>
 
-        <button type="submit" className={styles.button}>Отправить</button>
+        <button type="submit" className={styles.button}>Рассчитать</button>
       </form>
     </div>
   );

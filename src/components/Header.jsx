@@ -27,8 +27,8 @@ const ProfileIconContainer = styled.div`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  top: 65px;
-  right: 112px;
+  top: 81px;
+  right: 107px;
   background-color: white;
   border: 1px solid gray;
   border-radius:10px;
@@ -63,7 +63,7 @@ const Header = () => {
     <StyledHeader>
       
       
-      <Logo onClick={() => window.location.reload()}><span>Личный кабинет</span></Logo>
+      <Logo onClick={() => window.location.reload()}><span>Главная</span></Logo>
       
       <Logo onClick={toggleForm} ><span>Рекомендательная система</span></Logo>
       <Logo><span>Помощь</span></Logo>
