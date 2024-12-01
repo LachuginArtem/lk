@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styles from './Form.module.css'; 
+import styles from './Form.module.css';
+ 
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ const Form = () => {
       alert('Произошла ошибка при отправке формы.');
     }
   };
+  
 
   return (
     <div className={styles.container}>
@@ -100,14 +102,24 @@ const Form = () => {
           </label>
 
           <label className={styles.label}>
-            Образование:
-            <input type="text" value={formData.user.education} name="education" onChange={handleChange} required />
-          </label>
+  Вид образования:
+  <select name="education_type" value={formData.education_type} onChange={handleChange} required >
+    <option value="">Выберите вид образования</option>
+    <option value="Начальное">Начальное общее образование</option>
+    <option value="Среднее">Среднее общее образование</option>
+    <option value="Высшее">Высшее общее образование</option>
+  </select>
+</label>
 
           <label className={styles.label}>
-            Форма обучения:
-            <input type="text" value={formData.user.study_form} name="study_form" onChange={handleChange} required />
-          </label>
+  Форма обучения:
+  <select name="study_form" value={formData.user.study_form} onChange={handleChange} required >
+    <option value="">Выберите форму обучения</option>
+    <option value="Очная">Очная</option>
+    <option value="Заочная">Заочная</option>
+    <option value="Очно-заочная">Очно-заочная</option>
+  </select>
+</label>
         </fieldset>
 
         <button type="submit" className={styles.button}>Рассчитать</button>

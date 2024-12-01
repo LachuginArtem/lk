@@ -66,3 +66,11 @@
 .button:hover {
   background-color: #0056b3;
 }
+.checkboxGroup label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  margin-right: 10px;
+}

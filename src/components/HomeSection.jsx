@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from './Form.module.css';
 
 const HomeSection = () => {
-    
     const [isFormVisible, setFormVisible] = useState(false);
 
     const handleButtonClick = () => {
@@ -10,143 +9,231 @@ const HomeSection = () => {
     };
 
     const Form = () => {
-        const [formData, setFormData] = useState({
-            top_n: '',
-            user: {
-                gender: '',
-                age: '',
-                sport: '',
-                foreign: '',
-                gpa: '',
-                total_points: '',
-                bonus_points: '',
-                exams: [],
-                education: '',
-                study_form: ''
-            }
-        });
+  const [formData, setFormData] = useState({
+    top_n: 0,
+    user: {
+      gender: '',
+      age: 0,
+      sport: '',
+      foreign: '',
+      gpa: 0.0,
+      total_points: 0,
+      bonus_points: 0,
+      exams: [],
+      education: '',
+      study_form: '',
+    },
+  });
 
-        const handleChange = (e) => {
-            if (e.target.name === 'exams') {
-                let newExams = [...formData.user.exams];
-                newExams.push(e.target.value);
-                setFormData({ ...formData, user: { ...formData.user, exams: newExams } });
-            } else {
-                setFormData({ ...formData, user: { ...formData.user, [e.target.name]: e.target.value } });
-            }
-        };
+  // const jsonString = JSON.stringify(formData);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-            try {
-                const response = await fetch('https://tyuiu-fastapi-rec-sys.onrender.com/rec_sys/recommend/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                const data = await response.json();
-                console.log(data); // Логируем ответ от сервера
-                alert('Форма успешно отправлена!');
-            } catch (error) {
-                console.error('Ошибка при отправке формы:', error);
-                alert('Произошла ошибка при отправке формы.');
-            }
-        };
+    if (name === 'exams') {
+      // Разделяем введенные экзамены через запятую
+      const examsArray = value.split(',').map((exam) => exam.trim());
+      setFormData({
+        ...formData,
+        user: { ...formData.user, exams: examsArray },
+      });
+    } else if (['age', 'gpa', 'total_points', 'bonus_points'].includes(name)) {
+      // Приведение числовых полей к числам
+      setFormData({
+        ...formData,
+        user: { ...formData.user, [name]: parseFloat(value) || 0 },
+      });
+    } else if (name === 'top_n') {
+      // Обновляем поле top_n
+      setFormData({ ...formData, top_n: parseInt(value, 10) || 0 });
+    } else {
+      // Обновляем остальные текстовые поля
+      setFormData({
+        ...formData,
+        user: { ...formData.user, [name]: value },
+      });
+    }
+  };
 
-        return (
-            <div className={styles.container}>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <label className={styles.label}>
-                Количество направлений:
-                <input type="number" value={formData.top_n} onChange={(e) => setFormData({ ...formData, top_n: e.target.value })} required />
-                </label>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Отправляемые данные:', JSON.stringify(formData, null, 2));
 
-                <fieldset className={styles.fieldset}>
-                <label className={styles.label}>
-                    <select value={formData.user.gender} name="gender" onChange={handleChange} required>
-                    <option value="">Выберите пол</option>
-                    <option value="М">Мужской</option>
-                    <option value="Ж">Женский</option>
-                    </select>
-                </label>
 
-                <label className={styles.label}>
-                    Возраст:
-                    <input type="number" value={formData.user.age} name="age" onChange={handleChange} required />
-                </label>
+    try {
+      const response = await fetch(
+        '/rec_sys/recommend/',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            mode:'no-cors'
+            
+          },
+          body: JSON.stringify(formData, null, 2),
+         
+        }
+      );
 
-                <label className={styles.label}>
-                Вид спорта:
-                    <input type="text" value={formData.user.sport} name="sport" onChange={handleChange} required />
-                </label>
+      if (!response.ok) {
+        throw new Error(`Ошибка HTTP: ${response.status}`);
+      }
 
-                <label className={styles.label}>
-                    Гражданство:
-                    <input type="text" value={formData.user.foreign} name="foreign" onChange={handleChange} required />
-                </label>
+      const data = await response.json();
+      console.log('Ответ от сервера:', data); // Логируем ответ
+      alert('Данные успешно отправлены!');
+    } catch (error) {
+      console.error('Ошибка отправки данных:', error);
+      alert('Произошла ошибка при отправке данных.');
+    }
+  };
 
-                <label className={styles.label}>
-                    Средний балл (GPA):
-                    <input type="number" step="0.01" value={formData.user.gpa} name="gpa" onChange={handleChange} required />
-                </label>
+  return (
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label className={styles.label}>
+          Количество направлений:
+          <input
+            type="number"
+            value={formData.top_n}
+            name="top_n"
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-                <label className={styles.label}>
-                    Общее количество баллов:
-                    <input type="number" value={formData.user.total_points} name="total_points" onChange={handleChange} required />
-                </label>
+        <fieldset className={styles.fieldset}>
+          <label className={styles.label}>
+            Пол:
+            <select
+              value={formData.user.gender}
+              name="gender"
+              onChange={handleChange}
+              required
+            >
+              <option value="">Выберите пол</option>
+              <option value="М">Мужской</option>
+              <option value="Ж">Женский</option>
+            </select>
+          </label>
 
-                <label className={styles.label}>
-                    Дополнительные баллы:
-                    <input type="number" value={formData.user.bonus_points} name="bonus_points" onChange={handleChange} required />
-                </label>
+          <label className={styles.label}>
+            Возраст:
+            <input
+              type="number"
+              value={formData.user.age}
+              name="age"
+              onChange={handleChange}
+              required
+            />
+          </label>
 
-                <label className={styles.label}>
-                    Экзамены:
-                    <input type="text" name="exams" onChange={handleChange} placeholder="Введите название экзаменов без пробелов, через запятую" />
-                </label>
+          <label className={styles.label}>
+            Вид спорта:
+            <input
+              type="text"
+              value={formData.user.sport}
+              name="sport"
+              onChange={handleChange}
+              required
+            />
+          </label>
 
-                <label className={styles.label}>
-                    Образование:
-                    <input type="text" value={formData.user.education} name="education" onChange={handleChange} required />
-                </label>
+          <label className={styles.label}>
+            Гражданство:
+            <input
+              type="text"
+              value={formData.user.foreign}
+              name="foreign"
+              onChange={handleChange}
+              required
+            />
+          </label>
 
-                <label className={styles.label}>
-                    Форма обучения:
-                    <input type="text" value={formData.user.study_form} name="study_form" onChange={handleChange} required />
-                </label>
-                </fieldset>
+          <label className={styles.label}>
+            Средний балл (GPA):
+            <input
+              type="number"
+              step="0.01"
+              value={formData.user.gpa}
+              name="gpa"
+              onChange={handleChange}
+              required
+            />
+          </label>
 
-                <button type="submit" className={styles.button}>Отправить</button>
-            </form>
-            </div>
-        );
-    };
+          <label className={styles.label}>
+            Общее количество баллов:
+            <input
+              type="number"
+              value={formData.user.total_points}
+              name="total_points"
+              onChange={handleChange}
+              required
+            />
+          </label>
+
+          <label className={styles.label}>
+            Дополнительные баллы:
+            <input
+              type="number"
+              value={formData.user.bonus_points}
+              name="bonus_points"
+              onChange={handleChange}
+              required
+            />
+          </label>
+
+          <label className={styles.label}>
+            Экзамены:
+            <input
+              type="text"
+              name="exams"
+              placeholder="Введите названия через запятую"
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className={styles.label}>
+            Образование:
+            <input
+              type="text"
+              value={formData.user.education}
+              name="education"
+              onChange={handleChange}
+              required
+            />
+          </label>
+
+          <label className={styles.label}>
+            Форма обучения:
+            <input
+              type="text"
+              value={formData.user.study_form}
+              name="study_form"
+              onChange={handleChange}
+              required
+            />
+          </label>
+        </fieldset>
+
+        <button type="submit" className={styles.button}>
+          Отправить
+        </button>
+      </form>
+    </div>
+  );
+};
 
     return (
         <section className="home">
             <div className="content">
-             {!isFormVisible && (
+            {/* {!isFormVisible && (
                 <>
                 <h3>О нашей рекомендательной системе</h3>
-                <p>
-      Рекомендательная система — это набор алгоритмов, программ или сервисов,
-      предназначенный для выдачи в качестве рекомендаций интересных пользователям
-      продуктов, товаров или услуг.
-      <br />
-      1. Она стремится максимально точно предсказать предпочтения потребителя и
-      предложить наиболее подходящий товар или услугу.
-      <br />
-      <br />
-      2. Принцип работы: сначала собираются данные о пользователе, затем их
-      анализирует специально разработанный алгоритм, после чего на основании
-      полученных результатов клиенту выдается набор рекомендаций.
-      <br />
-    </p>
                 
+                <button onClick={handleButtonClick} className="btn">Рассчитать</button>
                 </>
-            )}
+            )} */}
                 {isFormVisible && <Form />}
             </div>
         </section>
