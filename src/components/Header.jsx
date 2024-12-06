@@ -16,7 +16,7 @@ const Logo = styled(Link)`
   color: black;
   
   span {
-    color: blue;
+    color: white;
   }
 `;
 
@@ -27,8 +27,8 @@ const ProfileIconContainer = styled.div`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  top: 81px;
-  right: 107px;
+  top: 140px;
+  right: 139px;
   background-color: white;
   border: 1px solid gray;
   border-radius:10px;
@@ -63,14 +63,13 @@ const Header = () => {
     <StyledHeader>
       
       
-      <Logo onClick={() => window.location.reload()}><span>Главная</span></Logo>
+    <button className="btn"><Logo onClick={() => window.location.reload()}><span>Главная</span></Logo></button>
       
-      <Logo onClick={toggleForm} ><span>Рекомендательная система</span></Logo>
-      <Logo><span>Помощь</span></Logo>
+    <button className="btn"><Logo onClick={toggleForm} ><span>Рекомендательная система</span></Logo></button>
       
       {/* Иконка профиля */}
       <ProfileIconContainer onClick={toggleMenu}>
-        { <AccountBoxIcon style={{ fontSize: 50 }} /> }
+        { <AccountBoxIcon style={{ fontSize: 90, marginTop: 20 }} /> }
       </ProfileIconContainer>
 
       {/* Выдвигающееся меню */}

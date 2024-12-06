@@ -15,7 +15,6 @@ const HomeSection = () => {
       gender: '',
       age: 0,
       sport: '',
-      foreign: '',
       gpa: 0.0,
       total_points: 0,
       bonus_points: 0,
@@ -227,13 +226,11 @@ const HomeSection = () => {
     return (
         <section className="home">
             <div className="content">
-            {/* {!isFormVisible && (
+            {!isFormVisible && (
                 <>
-                <h3>О нашей рекомендательной системе</h3>
-                
-                <button onClick={handleButtonClick} className="btn">Рассчитать</button>
+                <h3>О нашей рекомендательной системе бла бла бал бал</h3>
                 </>
-            )} */}
+            )}
                 {isFormVisible && <Form />}
             </div>
         </section>
